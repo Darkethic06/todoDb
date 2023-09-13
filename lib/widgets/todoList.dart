@@ -1,11 +1,13 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tododb/widgets/todoItem.dart';
 
 import '../handler/dbHandler.dart';
 
 class TodoList extends StatelessWidget {
+  final Function updateFunction;
+  final Function deleteFunction;
+  TodoList(
+      {required this.updateFunction, required this.deleteFunction, super.key});
   var db = Databasehandler();
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,8 @@ class TodoList extends StatelessWidget {
                       todoText: data[i].todoText,
                       creationDate: data[i].creationDate,
                       isDone: data[i].isDone,
+                      updateFunction: updateFunction,
+                      deleteFunction: deleteFunction,
                     ),
                     itemCount: dataLength,
                   );

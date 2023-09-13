@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tododb/handler/dbHandler.dart';
+import 'package:tododb/widgets/todoForm.dart';
 import 'package:tododb/widgets/todoList.dart';
 import 'package:tododb/widgets/todoitem.dart';
+
+import '../model/todo.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var db = Databasehandler();
+  void addItem(Todo todo) async {
+    await db.insertTodo(todo);
+    setState(() {});
+  }
+
+  void deleteItem(Todo todo) async {
+    await db.deleteTodo(todo);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,52 +44,22 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                Expanded(
-                    child: ListView(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 20),
-                      child: Text(
-                        "All ToDo",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 20),
-                      ),
-                    ),
-                    TodoList()
-                  ],
-                ))
+                Padding(
+                  padding: EdgeInsets.only(top: 30, bottom: 20),
+                  child: Text(
+                    "All ToDo",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                  ),
+                ),
+                TodoList(
+                  updateFunction: addItem,
+                  deleteFunction: deleteItem,
+                )
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                  child: Container(
-                margin: EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextField(
-                  decoration: const InputDecoration(
-                      hintText: "Add New Task", border: InputBorder.none),
-                ),
-              )),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "+",
-                  style: const TextStyle(
-                    fontSize: 40,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.blue[500],
-                    minimumSize: Size(60, 60),
-                    elevation: 10),
-              )
-            ]),
+          TodoForm(
+            insertFunction: addItem,
           )
         ],
       ),

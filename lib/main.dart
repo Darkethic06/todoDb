@@ -4,11 +4,14 @@ import 'package:tododb/model/todo.dart';
 import 'package:tododb/screens/home.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // var db = Databasehandler();
+  WidgetsFlutterBinding.ensureInitialized();
+  var db = Databasehandler();
   // await db.insertTodo(Todo(
-  //     todoText: 'Class at 9', creationDate: DateTime.now(), isDone: false));
-  // print(await db.getTodo());
+  //     id: 1,
+  //     todoText: 'Class at 8.30',
+  //     creationDate: DateTime.now(),
+  //     isDone: false));
+  print(await db.getTodo());
   runApp(const MyApp());
 }
 

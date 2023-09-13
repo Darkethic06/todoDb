@@ -30,6 +30,11 @@ class Databasehandler {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  Future<void> deleteTodo(Todo todo) async {
+    final db = await database;
+    await db.delete('todo', where: 'id == ?', whereArgs: [todo.id]);
+  }
+
   Future<List<Todo>> getTodo() async {
     final db = await database;
     List<Map<String, dynamic>> items = await db.query('todo');
